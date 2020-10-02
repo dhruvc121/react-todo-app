@@ -1,25 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{useState} from 'react';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import ListComp from './ListComp';
 import './App.css';
 
+
+
 function App() {
+  const[items,setItems]=useState("");
+  const[newItem,setNewItem]=useState([]);
+  const itemEvent=(event)=>{
+		setItems(event.target.value);
+	  }
+  const listItems=()=>{
+		setNewItem((previous)=>{
+				return [...previous,items]
+			})
+		setItems("");
+	  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  <>
+    <div className="main_div">
+     <div className="center_div">
+		<h1>Todo App</h1>
+		<br/>
+		<input type="text" value={items} placeholder="Add a task!!" onChange={itemEvent}/>
+		<Button className="button" disabled={!items} onClick={listItems}><AddIcon/></Button>
+		<br/>
+		<ul>
+		
+		{
+			newItem.map((val, index)=>{
+				return <ListComp key={index} text={val} />
+			})
+		}
+		</ul>
+     </div>
     </div>
+  </>
   );
 }
 
